@@ -1,8 +1,6 @@
 package webPage;
 
-import org.openqa.selenium.By;
-import org.openqa.selenium.WebDriver;
-import org.openqa.selenium.WebElement;
+import org.openqa.selenium.*;
 import testObjects.Factories;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
@@ -25,7 +23,7 @@ public class SendQuotePage {
 
     //dialog
     private final By loadingBy = By.id("LoadingPDF");
-    private final By dialogTextBy = By.cssSelector(".sweet-alert > h2:nth-child(6)");
+    private final By dialogTextBy = By.className("confirm");
 
     public SendQuotePage(WebDriver driver) {
         this.driver = driver;
@@ -42,8 +40,8 @@ public class SendQuotePage {
     }
 
     public String getDialogTextBy() {
-        new WebDriverWait(driver, 30).until(ExpectedConditions.invisibilityOf(driver.findElement(By.id("LoadingPDF"))));
-        new WebDriverWait(driver, 30).until(ExpectedConditions.visibilityOf(driver.findElement(By.xpath("//div[contains(@class, 'sweet-alert showSweetAlert visible')]"))));
+        WebDriverWait wait = new WebDriverWait(driver, 30);
+        wait.until(ExpectedConditions.invisibilityOf(driver.findElement(By.id("LoadingPDF"))));
         WebElement element = driver.findElement(dialogTextBy);
 
         return element.getText();
