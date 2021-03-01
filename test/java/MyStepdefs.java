@@ -1,7 +1,9 @@
+import helper.WebPagesHelper;
 import io.cucumber.java.en.And;
 import io.cucumber.java.en.Given;
 import io.cucumber.java.en.Then;
 import io.cucumber.java.en.When;
+import org.junit.Assert;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.firefox.FirefoxDriver;
 import testObjects.Factories;
@@ -62,6 +64,10 @@ public class MyStepdefs {
 
     @Then("Email sent successfully")
     public void emailSentSuccessfully() {
-        //Assert.assertEquals(expectedSuccessText, sendQuotePage.getDialogTextBy());
+        WebPagesHelper helper = new WebPagesHelper();
+        sendQuotePage.waitLoading();
+        sendQuotePage.waitWindowLoad();
+        helper.switchToWindow(driver, this.expectedSuccessText);
+        Assert.assertEquals(expectedSuccessText, sendQuotePage.getDialogTextBy());
     }
 }

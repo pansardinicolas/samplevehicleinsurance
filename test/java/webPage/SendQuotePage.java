@@ -1,9 +1,11 @@
 package webPage;
 
-import org.openqa.selenium.*;
-import testObjects.Factories;
+import org.openqa.selenium.By;
+import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
+import testObjects.Factories;
 
 /**
  * @author Nicolas Pansardi
@@ -23,13 +25,13 @@ public class SendQuotePage {
 
     //dialog
     private final By loadingBy = By.id("LoadingPDF");
-    private final By dialogTextBy = By.className("confirm");
+    private final By dialogTextBy = By.xpath("//div[@class='sweet-alert showSweetAlert']/h2");
 
     public SendQuotePage(WebDriver driver) {
         this.driver = driver;
     }
 
-    public void enterQuoteData(Factories.QuoteDestine quoteDestine){
+    public void enterQuoteData(Factories.QuoteDestine quoteDestine) {
         driver.findElement(emailBy).sendKeys(quoteDestine.getEmail());
         driver.findElement(phoneBy).sendKeys(quoteDestine.getPhone());
         driver.findElement(usernameBy).sendKeys(quoteDestine.getUsername());
@@ -39,9 +41,17 @@ public class SendQuotePage {
         driver.findElement(sendButtonBy).click();
     }
 
-    public String getDialogTextBy() {
-        WebDriverWait wait = new WebDriverWait(driver, 30);
+    public void waitLoading() {
+        WebDriverWait wait = new WebDriverWait(driver, 50);
         wait.until(ExpectedConditions.invisibilityOf(driver.findElement(By.id("LoadingPDF"))));
+    }
+
+    public void waitWindowLoad() {
+        WebDriverWait wait = new WebDriverWait(driver, 50);
+        wait.until(ExpectedConditions.presenceOfElementLocated(By.xpath("//div[contains(@class, 'sweet-alert showSweetAlert')]")));
+    }
+
+    public String getDialogTextBy() {
         WebElement element = driver.findElement(dialogTextBy);
 
         return element.getText();
